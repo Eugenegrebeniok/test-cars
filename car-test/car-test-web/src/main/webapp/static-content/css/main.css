@@ -1,0 +1,42 @@
+.body {
+	background:
+		url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQd2Hr6QbeGcX0LgXqyCOehBVBXWLd9ZiTMc4ou4_rplDwWOSgq") no-repeat center top/cover;
+}
+
+.tablestyle{
+	border-collapse: collapse;
+	border: 2px solid black; 
+}
+
+ td{
+	border: 1px solid black;
+	padding: 1px;
+	color: black;
+	font-size: 15px;
+	text-align: center;
+}
+
+th{
+	border: 1px solid black;
+	padding: 2px;
+	color: black;
+	font-size: 17px;
+	text-align: center;
+}
+
+div{
+	border: 3px solid black;
+	padding: 2px;
+	margin-left: 520px;
+	margin-right: 520px;
+}
+
+label{
+	color: black;
+	font-size: 15px;
+	text-align: right;
+}
+
+.inputstyle{
+	border-radius: 30px;
+}

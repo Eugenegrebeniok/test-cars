@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xmlns:tx="http://www.springframework.org/schema/tx"
+	   xmlns:jee="http://www.springframework.org/schema/jee"
+	   xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+	   
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd
+		http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+		
+	<jee:jndi-lookup id="dataSource" jndi-name="jdbc/cars_db" expected-type="javax.sql.DataSource"></jee:jndi-lookup>
+	
+	<bean id="flyway" class="org.flywaydb.core.Flyway" init-method="migrate">
+	<property name="dataSource" ref="dataSource"></property>
+	<property name="locations">
+	<list>
+	<value>db/migration</value>
+	</list>
+	</property>
+	</bean>
+
+    <bean id="jpaVendorAdapter" class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+    <property name="database" value="MYSQL"></property>
+    <property name="showSql" value="true"></property>
+    <property name="databasePlatform" value="org.hibernate.dialect.MySQLDialect"></property>
+	</bean>
+	
+	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean" depends-on="flyway">
+	<property name="dataSource" ref="dataSource"></property>
+	<property name="persistenceUnitName" value="cars_db"></property>
+	<property name="jpaVendorAdapter" ref="jpaVendorAdapter"></property>
+	</bean>
+	
+	<bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor">
+	</bean>
+	
+	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+	<property name="entityManagerFactory" ref="entityManagerFactory"></property>
+	</bean>
+	
+	<tx:annotation-driven/>
+	
+	<context:annotation-config />
+	
+	<jpa:repositories base-package="com.spirit.cartest.dao"
+	                  entity-manager-factory-ref="entityManagerFactory"
+					  transaction-manager-ref="transactionManager"/>
+	
+</beans>

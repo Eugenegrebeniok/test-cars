@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context>
+	<ResourceLink name="jdbc/cars_db" global="jdbc/cars_db" type="javax.sql.DataSource" />
+</Context>
